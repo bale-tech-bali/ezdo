@@ -82,6 +82,7 @@ export default function Page() {
           loading={loading}
           columns={columns}
           dataSource={todos.map((todo) => ({ ...todo, key: todo.id }))}
+          pagination={false}
         />
       </Card>
 
