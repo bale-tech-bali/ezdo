@@ -5,11 +5,11 @@
     "no-else-return": "error",
     "no-empty": "error",
     "no-lonely-if": "error",
-    "no-shadow": "error",
     "no-param-reassign": "error",
+    "no-shadow-restricted-names": "warn",
     "no-unused-vars": "warn",
     "no-useless-return": "error",
-    "valid-jsdoc": "warn",
-    "sort-imports": "warn"
+    "sort-imports": "warn",
+    "valid-jsdoc": "warn"
   }
 }
