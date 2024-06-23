@@ -3,7 +3,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Ezdo | Simple Todo',
+  title: 'ezdo | Simple Todo',
   description:
     'A simple todo app to demonstrate RLS (Row-Level Security) with Supabase.',
 }

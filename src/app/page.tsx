@@ -18,12 +18,12 @@ export default function Page() {
           <Row align="middle" justify="center" className={styles.loginCardHead}>
             <Image
               src="/logo.svg"
-              alt="Ezdo | Simple Todo"
+              alt="ezdo | Simple Todo"
               height={50}
               width={50}
             />
             <Typography.Title level={4} className={styles.loginCardTitle}>
-              Ezdo | Simple Todo
+              ezdo | Simple Todo
             </Typography.Title>
           </Row>
         }
