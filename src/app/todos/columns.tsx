@@ -1,11 +1,14 @@
+import { Button, TableProps } from 'antd'
 import ActionColumn from '@/components/utils/ActionColumn'
-import { TableProps } from 'antd'
+import { ReloadOutlined } from '@ant-design/icons'
 import Todo from '@/models/Todo'
 
 export default function getTodoColumns({
+  refreshCallback,
   editCallback,
   removeCallback,
 }: {
+  refreshCallback: () => void
   editCallback: (todo: Todo) => void // eslint-disable-line no-unused-vars
   removeCallback: (id: number) => void // eslint-disable-line no-unused-vars
 }) {
@@ -25,7 +28,12 @@ export default function getTodoColumns({
     },
     {
       key: 'action',
-      width: 129,
+      width: 128,
+      title: (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button icon={<ReloadOutlined />} onClick={refreshCallback} />
+        </div>
+      ),
       render: (_, record) => (
         <ActionColumn
           record={record}

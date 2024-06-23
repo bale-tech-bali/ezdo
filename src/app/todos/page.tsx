@@ -7,7 +7,7 @@ import getTodoColumns from './columns'
 import { useState } from 'react'
 
 export default function Page() {
-  const { todos, loading, add, edit, remove } = useTodo()
+  const { todos, loading, refresh, add, edit, remove } = useTodo()
   const [todoForm] = Form.useForm<TodoSubmission>()
 
   const [openedFormModalType, setOpenedFormModalType] = useState<
@@ -17,6 +17,7 @@ export default function Page() {
   const [selectedTodoId, setSelectedTodoId] = useState<number | null>(null)
 
   const columns = getTodoColumns({
+    refreshCallback: refresh,
     editCallback: (todo) => {
       todoForm.setFieldsValue(todo)
       setSelectedTodoId(todo.id)
