@@ -1,0 +1,22 @@
+.loginCardContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loginCard {
+    max-width: 400px;
+    width: 100%;
+    margin: 24px;
+
+    .loginCardHead {
+      margin-top: 24px;
+      margin-bottom: 24px;
+
+      .loginCardTitle {
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+    }
+  }
+}
