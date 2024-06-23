@@ -1,16 +1,37 @@
 'use client'
 
-import { Button, Card, Form, Input, Row, Typography } from 'antd'
+import { Button, Card, Form, Input, Row, Typography, notification } from 'antd'
 import Image from 'next/image'
 import { LoginOutlined } from '@ant-design/icons'
+import { createAnonymousClient } from '@/supabase/client'
 import styles from './page.module.scss'
-
-interface Credentials {
-  email: string
-  password: string
-}
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export default function Page() {
+  const supabase = createAnonymousClient()
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+
+  const login = async (credentials: Credentials) => {
+    setLoading(true)
+    const response = await supabase.auth.signInWithPassword(credentials)
+    if (response.error) {
+      notification.error({
+        message: 'Login Failed!',
+        description: response.error.message,
+      })
+      setLoading(false)
+      return
+    }
+    notification.success({
+      message: 'Login Successful',
+      description: `Hi, ${response.data.user.email}!`,
+    })
+    localStorage.setItem('auth-credentials', JSON.stringify(response.data))
+    router.push('/todos')
+  }
+
   return (
     <div className={styles.loginCardContainer}>
       <Card
@@ -29,7 +50,12 @@ export default function Page() {
         }
         className={styles.loginCard}
       >
-        <Form name="login" layout="vertical">
+        <Form
+          name="login"
+          layout="vertical"
+          disabled={loading}
+          onFinish={login}
+        >
           <Form.Item<Credentials>
             name="email"
             rules={[
@@ -48,12 +74,13 @@ export default function Page() {
           >
             <Input.Password placeholder="Password" />
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{ marginBottom: 0 }}>
             <Button
               type="primary"
               htmlType="submit"
               block
               icon={<LoginOutlined />}
+              loading={loading}
             >
               Login
             </Button>
@@ -62,4 +89,9 @@ export default function Page() {
       </Card>
     </div>
   )
+}
+
+interface Credentials {
+  email: string
+  password: string
 }
