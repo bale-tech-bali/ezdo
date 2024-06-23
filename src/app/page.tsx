@@ -3,13 +3,13 @@
 import { Button, Card, Form, Input, Row, Typography, notification } from 'antd'
 import Image from 'next/image'
 import { LoginOutlined } from '@ant-design/icons'
-import { createAnonymousClient } from '@/supabase/client'
+import { createClient } from '@/supabase/client'
 import styles from './page.module.scss'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function Page() {
-  const supabase = createAnonymousClient()
+  const supabase = createClient()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
@@ -28,7 +28,6 @@ export default function Page() {
       message: 'Login Successful',
       description: `Hi, ${response.data.user.email}!`,
     })
-    localStorage.setItem('auth-credentials', JSON.stringify(response.data))
     router.push('/todos')
   }
 
