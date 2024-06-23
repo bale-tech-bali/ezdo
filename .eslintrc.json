@@ -1,0 +1,15 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "no-console": "error",
+    "no-else-return": "error",
+    "no-empty": "error",
+    "no-lonely-if": "error",
+    "no-shadow": "error",
+    "no-param-reassign": "error",
+    "no-unused-vars": "warn",
+    "no-useless-return": "error",
+    "valid-jsdoc": "warn",
+    "sort-imports": "warn"
+  }
+}
