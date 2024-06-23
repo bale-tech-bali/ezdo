@@ -1,12 +1,16 @@
 'use client'
 
-import { Button, Card, Form, Input, Modal, Table } from 'antd'
+import { Button, Card, Form, Input, Modal, Table, notification } from 'antd'
+import { LogoutOutlined, PlusOutlined } from '@ant-design/icons'
 import useTodo, { TodoSubmission } from '@/hooks/todo'
-import { PlusOutlined } from '@ant-design/icons'
+import { createClient } from '@/supabase/client'
 import getTodoColumns from './columns'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function Page() {
+  const supabase = createClient()
+  const router = useRouter()
   const { todos, loading, refresh, add, edit, remove } = useTodo()
   const [todoForm] = Form.useForm<TodoSubmission>()
 
@@ -68,8 +72,30 @@ export default function Page() {
     todoForm.resetFields()
   }
 
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      notification.error({
+        message: 'Logout Failed!',
+        description: error.message,
+      })
+      return
+    }
+    router.push('/')
+    notification.success({
+      message: 'Logout Successful',
+      description: 'Sad to see you go!',
+    })
+  }
+
   return (
     <>
+      <div style={{ display: 'flex', justifyContent: 'end', marginBottom: 12 }}>
+        <Button danger icon={<LogoutOutlined />} onClick={logout}>
+          Logout
+        </Button>
+      </div>
+
       <Card
         title="Todos"
         extra={

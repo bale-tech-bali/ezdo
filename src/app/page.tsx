@@ -15,20 +15,20 @@ export default function Page() {
 
   const login = async (credentials: Credentials) => {
     setLoading(true)
-    const response = await supabase.auth.signInWithPassword(credentials)
-    if (response.error) {
+    const { data, error } = await supabase.auth.signInWithPassword(credentials)
+    if (error) {
       notification.error({
         message: 'Login Failed!',
-        description: response.error.message,
+        description: error.message,
       })
       setLoading(false)
       return
     }
+    router.push('/todos')
     notification.success({
       message: 'Login Successful',
-      description: `Hi, ${response.data.user.email}!`,
+      description: `Hi, ${data.user.email}!`,
     })
-    router.push('/todos')
   }
 
   return (

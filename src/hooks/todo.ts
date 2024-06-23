@@ -53,10 +53,10 @@ export default function useTodo() {
         setLoading(false)
         return
       }
+      setMutate(true)
       notification.success({
         message: `${entityName} added!`,
       })
-      setMutate(true)
     },
     [supabase],
   )
@@ -76,10 +76,10 @@ export default function useTodo() {
         setLoading(false)
         return
       }
+      setMutate(true)
       notification.success({
         message: `${entityName} edited!`,
       })
-      setMutate(true)
     },
     [supabase],
   )
@@ -96,10 +96,10 @@ export default function useTodo() {
         setLoading(false)
         return
       }
+      setMutate(true)
       notification.success({
         message: `${entityName} removed!`,
       })
-      setMutate(true)
     },
     [supabase],
   )
