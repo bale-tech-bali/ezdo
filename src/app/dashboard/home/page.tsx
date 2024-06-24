@@ -52,9 +52,7 @@ export default function Page() {
   }
 
   const editTodo = async () => {
-    if (selectedTodoId === null) {
-      return
-    }
+    if (selectedTodoId === null) return
     todoForm
       .validateFields()
       .then(async (value) => {

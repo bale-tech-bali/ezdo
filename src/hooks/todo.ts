@@ -16,22 +16,22 @@ export default function useTodo() {
     const getTodos = async () => {
       setLoading(true)
 
-      const response = await supabase
+      const { data, error } = await supabase
         .from(tableName)
         .select()
         .order('created_at', { ascending: true })
         .returns<Todo[]>()
 
-      if (response.error) {
+      if (error) {
         notification.error({
-          message: response.error.message,
-          description: response.error.details,
+          message: error.message,
+          description: error.details,
         })
         setLoading(false)
         return
       }
 
-      setTodos(response.data || [])
+      setTodos(data)
       setLoading(false)
       setMutate(false)
     }
