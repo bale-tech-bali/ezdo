@@ -1,8 +1,8 @@
 'use client'
 
 import { Button, Result, Spin, notification } from 'antd'
+import { LoginOutlined, LogoutOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-import { LoginOutlined } from '@ant-design/icons'
 import { Session } from '@supabase/auth-js'
 import { createClient } from '@/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -56,5 +56,42 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
     )
 
-  return <>{children}</>
+  const { user } = session
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error)
+      return notification.error({
+        message: 'Logout Failed!',
+        description: error.message,
+      })
+
+    router.push('/')
+    notification.success({
+      message: 'Logout Successful',
+      description: 'Sad to see you go!',
+    })
+  }
+
+  return (
+    <>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div>
+          <h1>Hi, {user.email}!</h1>
+        </div>
+        <div>
+          <Button danger icon={<LogoutOutlined />} onClick={logout}>
+            Logout
+          </Button>
+        </div>
+      </div>
+
+      {children}
+    </>
+  )
 }
