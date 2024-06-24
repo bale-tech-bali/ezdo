@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import GenericOmittedFields from '@/models/utils/GenericOmittedFields'
+import SessionContext from '@/app/dashboard/SessionContext'
 import Todo from '@/models/Todo'
 import { createClient } from '@/supabase/client'
 import { notification } from 'antd'
@@ -11,14 +12,18 @@ export default function useTodo() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [loading, setLoading] = useState(false)
   const [mutate, setMutate] = useState(true)
+  const { session } = useContext(SessionContext)
 
   useEffect(() => {
+    if (!session) return notification.error({ message: 'Session not found!' })
+
     const getTodos = async () => {
       setLoading(true)
 
       const { data, error } = await supabase
         .from('todos')
         .select()
+        .eq('user_id', session.user.id)
         .order('created_at', { ascending: true })
         .returns<Todo[]>()
 
@@ -37,7 +42,7 @@ export default function useTodo() {
     }
 
     if (mutate) getTodos()
-  }, [supabase, mutate])
+  }, [supabase, mutate, session])
 
   const refresh = () => setMutate(true)
 

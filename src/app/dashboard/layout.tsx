@@ -4,6 +4,7 @@ import { Button, Result, Spin, notification } from 'antd'
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { Session } from '@supabase/auth-js'
+import SessionContext from './SessionContext'
 import { createClient } from '@/supabase/client'
 import { useRouter } from 'next/navigation'
 
@@ -91,7 +92,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
 
-      {children}
+      <SessionContext.Provider value={{ session }}>
+        {children}
+      </SessionContext.Provider>
     </>
   )
 }
