@@ -24,7 +24,7 @@ export default function Page() {
       setLoading(false)
       return
     }
-    router.push('/todos')
+    router.push('/dashboard')
     notification.success({
       message: 'Login Successful',
       description: `Hi, ${data.user.email}!`,
