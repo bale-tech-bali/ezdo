@@ -72,13 +72,12 @@ export default function Page() {
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut()
-    if (error) {
-      notification.error({
+    if (error)
+      return notification.error({
         message: 'Logout Failed!',
         description: error.message,
       })
-      return
-    }
+
     router.push('/')
     notification.success({
       message: 'Logout Successful',

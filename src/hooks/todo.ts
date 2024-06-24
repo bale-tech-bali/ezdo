@@ -17,7 +17,7 @@ export default function useTodo() {
       setLoading(true)
 
       const { data, error } = await supabase
-        .from(tableName)
+        .from('todos')
         .select()
         .order('created_at', { ascending: true })
         .returns<Todo[]>()
@@ -44,7 +44,7 @@ export default function useTodo() {
   const add = useCallback(
     async (submission: TodoSubmission) => {
       setLoading(true)
-      const { error } = await supabase.from(tableName).insert(submission)
+      const { error } = await supabase.from('todos').insert(submission)
       if (error) {
         notification.error({
           message: error.message,
@@ -54,9 +54,7 @@ export default function useTodo() {
         return
       }
       setMutate(true)
-      notification.success({
-        message: `${entityName} added!`,
-      })
+      notification.success({ message: 'Todo added!' })
     },
     [supabase],
   )
@@ -65,7 +63,7 @@ export default function useTodo() {
     async ({ id, submission }: { id: number; submission: TodoSubmission }) => {
       setLoading(true)
       const { error } = await supabase
-        .from(tableName)
+        .from('todos')
         .update(submission)
         .eq('id', id)
       if (error) {
@@ -77,9 +75,7 @@ export default function useTodo() {
         return
       }
       setMutate(true)
-      notification.success({
-        message: `${entityName} edited!`,
-      })
+      notification.success({ message: 'Todo edited!' })
     },
     [supabase],
   )
@@ -87,7 +83,7 @@ export default function useTodo() {
   const remove = useCallback(
     async (id: number) => {
       setLoading(true)
-      const { error } = await supabase.from(tableName).delete().eq('id', id)
+      const { error } = await supabase.from('todos').delete().eq('id', id)
       if (error) {
         notification.error({
           message: error.message,
@@ -97,15 +93,10 @@ export default function useTodo() {
         return
       }
       setMutate(true)
-      notification.success({
-        message: `${entityName} removed!`,
-      })
+      notification.success({ message: 'Todo removed!' })
     },
     [supabase],
   )
 
   return { todos, loading, refresh, add, edit, remove }
 }
-
-const tableName = 'todos'
-const entityName = 'Todo'
